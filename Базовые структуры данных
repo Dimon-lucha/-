@@ -1,0 +1,17 @@
+#1st program
+print(9**0.5*5)
+
+#2st program
+print(9.99>9.98 and 1000!=1000.1)
+
+#3st program
+num1 = 2*2+2
+num2 = 2*(2+2)
+print(num1, num2)
+print(num1==num2)
+
+#4st program
+string = '123.456'
+print(string[4])
+print(float(string)*10)
+int(float(string)//10)
