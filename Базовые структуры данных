@@ -12,6 +12,4 @@ print(num1==num2)
 
 #4st program
 string = '123.456'
-print(string[4])
-print(float(string)*10)
-int(float(string)//10)
+print ((float(string) * 10)% 10)
