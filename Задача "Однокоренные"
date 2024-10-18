@@ -1,0 +1,25 @@
+def single_root_words(root_word, *other_words):
+    same_words = []
+    num = list(other_words)
+    did = root_word.lower()
+    n = 0
+    if len(did) > len(num[n]):
+        n += 1
+        for i in num:
+            i = i.lower()
+            kok = did.count(i)
+            if kok >= 1:
+                same_words.append(i)
+    elif len(did) < len(num[n]):
+        n += 1
+        for i in num:
+            i = i.lower()
+            kok = i.count(did)
+            if kok >= 1:
+                same_words.append(i)
+    return same_words
+
+r1 = single_root_words('rich', 'richiest', 'orichalcum', 'cheers', 'richies')
+r2 = single_root_words('Disablement', 'Able', 'Mable', 'Disable', 'Bagel')
+print(r1)
+print(r2)
