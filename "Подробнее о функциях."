@@ -1,0 +1,21 @@
+def summa(list_, n=0):
+    s = 0
+    if n == len(list_):
+        return 0
+    else:
+     if type(list_) == set:
+         list_ = list(list_)
+     v = list_[n]
+     if type(v) == int:
+         s = v + summa(list_, n+1)
+     elif type(v) == list or type(v) == tuple:
+         s = summa(v) + summa(list_, n+1)
+     elif type(v) == dict:
+         s = sum(v.values()) + summa(list(v.keys())) + summa(list_, n+1)
+     elif type(v) == set:
+         s = summa(v) + summa(list_, n+1)
+     elif type(v) == str:
+         s = len(v) + summa(list_, n+1)
+     return s
+data_structure = [[1, 2, 3], {'a': 4, 'b': 5}, (6, {'cube': 7, 'drum': 8}), "Hello", ((), [{(2, 'Urban', ('Urban2', 35))}])]
+print(summa(data_structure))
