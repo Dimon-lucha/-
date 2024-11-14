@@ -1,65 +1,67 @@
-class House:
-    def __init__(self, name, num):
-        self.name = name
-        self.num = num
+import random
 
-    def __len__(self):
-        return self.num
+class Animal:
+    def __init__(self, live = True, sound = None, _DEGREE_OF_DANGER = 0):
+        self.live = live
+        self.sound = sound
+        self._DEGREE_OF_DANGER = _DEGREE_OF_DANGER
+        self._cords = [0, 0, 0]
 
-    def __str__ (self):
-        return  f"Название: {self.name}, кол-во этажей: {self.num}"
+    def move(self, *_cords):
+        self.dx = _cords[0] * self.speed
+        self.dy = _cords[1] * self.speed
+        self.dz = _cords[2] * self.speed
+        return self.dx, self.dy, self.dz
 
-    def __eq__(self, other):
-        isinstance(other, int)
-        return self.num == other.num
+    def get_cords(self):
+        if self.dz >= 0:
+            print(f"X: {self.dx} Y: {self.dy} Z: {self.dz}")
+        else:
+            print("It's too deep, i can't dive :(" )
 
-    def  __add__(self, value):
-        self.num = self.num + value
-        return self
-    def __iadd__(self, other):
-        isinstance(other, int)
-        self.num += other
-        return self
-    def __radd__(self, other):
-        isinstance(other, int)
-        self.num = self.num + other
-        return self
+    def attack(self):
+        if self._DEGREE_OF_DANGER < 5:
+            print("Sorry, i'm peaceful :)")
+        else:
+            print("Be careful, i'm attacking you 0_0")
 
-    def __lt__(self, other):
-        return self.num < other.num
-    def __le__(self, other):
-        return self.num <= other.num
-    def __gt__(self, other):
-        return self.num > other.num
-    def __ge__(self, other):
-        return  self.num >= other.num
-    def __ne__(self, other):
-        return self.num != other.num
+    def speak(self):
+        print(self.sound)
+        
+class Bird(Animal):
+    def __init__(self, beak = True):
+        super().__init__()
+        self.beak = beak
+    def lay_eggs(self):
+        print(f"Here are(is) {random.randint(1, 4)} eggs for you")
+
+class AquaticAnimal(Animal):
+    def dive_in(self, z):
+        self._DEGREE_OF_DANGER = 3
+        self.dz = (self.dz/2) - abs(z)
+
+class PoisonousAnimal(Animal):
+    def __init__(self):
+        self._DEGREE_OF_DANGER = 8
+
+class Duckbill(Bird, AquaticAnimal, PoisonousAnimal):
+    def __init__(self, speed):
+        self.speed = speed
+        Animal.__init__(self)
+        super().__init__()
+        self.sound = "Click-click-click"
 
 
+db = Duckbill(10)
 
-h1 = House('ЖК Эльбрус', 10)
-h2 = House('ЖК Акация', 20)
+print(db.live)
+print(db.beak)
 
-print(h1)
-print(h2)
+db.speak()
+db.attack()
+db.move(1, 2, 3)
+db.get_cords()
+db.dive_in(6)
+db.get_cords()
 
-print(len(h1))
-print(len(h2))
-
-print(h1 == h2) # __eq__
-
-h1 = h1 + 10 # __add__
-print(h1)
-print(h1 == h2)
-
-h1 += 10 # __iadd__
-print(h1)
-h2 = 10 + h2 # __radd__
-print(h2)
-
-print(h1 > h2) # __gt__
-print(h1 >= h2) # __ge__
-print(h1 < h2) # __lt__
-print(h1 <= h2) # __le__
-print(h1 != h2) # __ne__
+db.lay_eggs()
