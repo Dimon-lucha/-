@@ -1,27 +1,68 @@
-def personal_sum(numbers):
-    result = 0
-    incorrect_data = 0
-    for n in numbers:
-        try:
-            result += n
-        except TypeError:
-            print(f'Некорректный тип данных для подсчёта суммы - {n}')
-            incorrect_data += 1
-    return (result, incorrect_data)
+class IncorrectCarNumbers(Exception):
+    def __init__(self, message):
+        self.message = message
 
-def calculate_average(numbers):
-    try:
-        sum_ = personal_sum(numbers)
-        sr = sum_[0]/ (len(numbers) - sum_[1])
-    except ZeroDivisionError:
-        return 0
-    except TypeError :
-        print('В numbers записан некорректный тип данных')
-        return None
-    return sr
+class IncorrectVinNumber(Exception):
+    def __init__(self, message):
+        self.message = message
+
+class Car:
+    def __init__(self, model, __vin,  __numbers):
+        self.model = model
+        self.__vin = __vin
+        self.__numder = __numbers
+        self.__is_valid_vin(self.__vin)
+        self.__is_valid_numbers(self.__numder)
+
+    def __is_valid_vin(self, vin_number):
+        if 1000000 > vin_number or vin_number > 9999999:
+            raise IncorrectVinNumber ('Неверный диапазон для vin номера')
+        if isinstance(vin_number, int) != True:
+            raise IncorrectVinNumber('Некорректный тип vin номер')
+        return True
+
+    def __is_valid_numbers(self, numbers):
+        if isinstance(numbers, str) != True:
+            raise IncorrectCarNumbers('Некорректный тип данных для номеров')
+        if len(numbers) != 6:
+            raise  IncorrectCarNumbers('Неверная длина номера')
+        return True
+
+try:
+  first = Car('Model1', 1000000, 'f123dj')
+except IncorrectVinNumber as exc:
+  print(exc.message)
+except IncorrectCarNumbers as exc:
+  print(exc.message)
+else:
+  print(f'{first.model} успешно создан')
+
+try:
+  second = Car('Model2', 300, 'т001тр')
+except IncorrectVinNumber as exc:
+  print(exc.message)
+except IncorrectCarNumbers as exc:
+  print(exc.message)
+else:
+  print(f'{second.model} успешно создан')
+
+try:
+  third = Car('Model3', 2020202, 'нет номера')
+except IncorrectVinNumber as exc:
+  print(exc.message)
+except IncorrectCarNumbers as exc:
+  print(exc.message)
+else:
+  print(f'{third.model} успешно создан')
 
 
-print(f'Результат 1: {calculate_average("1, 2, 3")}') # Строка перебирается, но каждый символ - строковый тип
-print(f'Результат 2: {calculate_average([1, "Строка", 3, "Ещё Строка"])}') # Учитываются только 1 и 3
-print(f'Результат 3: {calculate_average(567)}') # Передана не коллекция
-print(f'Результат 4: {calculate_average([42, 15, 36, 13])}') # Всё должно работать
+
+
+
+
+
+
+
+
+
+
